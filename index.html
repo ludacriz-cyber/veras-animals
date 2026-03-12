@@ -9,13 +9,17 @@
             --tile-bg: #1a1a2e;
             --accent-blue: #4facfe;
             --text-color: #ff4081;
+            /* New framed panel colors */
+            --panel-bg: rgba(255, 255, 255, 0.15);
+            --panel-border: #ff4081; /* Direct match for user outline */
+            --panel-shadow: rgba(255, 64, 129, 0.3);
         }
         
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             overflow: hidden; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            user-select: none; -webkit-user-select: none;
+            user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
             background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
             background-size: 400% 400%;
             animation: gradientBG 10s ease infinite;
@@ -35,16 +39,38 @@
         }
         
         #start-screen { background: rgba(26, 26, 46, 0.95); }
+
+        /* The New Framed Content Panel (Like the red outline) */
+        .start-content-panel {
+            width: 90vw; /* Almost cover whole page width-wise */
+            max-width: 580px; /* Keep it constrained on wide screens */
+            height: 75vh; /* Almost cover whole page height-wise */
+            max-height: 480px; /* Constrain height */
+            background: var(--panel-bg); /* Soft, light background */
+            backdrop-filter: blur(10px); /* Modern blur effect */
+            -webkit-backdrop-filter: blur(10px); /* Webkit support */
+            border: 6px solid var(--panel-border); /* Direct red-pink border like the outline */
+            border-radius: 20px; /* Soft corners for the panel */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around; /* Space elements evenly */
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box; /* Padding is inside the size */
+            box-shadow: 0 10px 40px var(--panel-shadow); /* Soft pink-red shadow */
+        }
         
-        /* Baby Photo Style */
+        /* Updated Baby Photo Style: Removed circular mask */
         .baby-photo {
-            width: 180px; height: 180px;
-            border-radius: 50%;
-            border: 6px solid white;
+            width: 150px; /* Slightly smaller for the new panel */
+            height: 150px;
+            border-radius: 12px; /* Soft corners instead of a circle */
+            border: 5px solid white; /* Keep white border */
             margin-bottom: 20px;
             object-fit: cover;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
             animation: babyBounce 3s infinite ease-in-out;
+            will-change: transform;
         }
 
         @keyframes babyBounce {
@@ -55,7 +81,7 @@
         h1 {
             color: #fff; font-size: clamp(2.5rem, 10vw, 4rem); 
             text-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            margin: 0 0 20px 0; text-align: center;
+            margin: 0; margin-top: -20px; text-align: center;
         }
 
         .play-btn {
@@ -97,9 +123,9 @@
             pointer-events: none; z-index: 250; will-change: transform;
         }
 
-        /* Credits tag */
+        /* Credits tag: Outside and below the new framed panel */
         .ai-tag {
-            position: absolute; bottom: 10px; color: rgba(255,255,255,0.3);
+            position: absolute; bottom: 2vh; color: rgba(255,255,255,0.3);
             font-size: 0.8rem; text-align: center; width: 100%;
         }
     </style>
@@ -109,9 +135,11 @@
     <div id="score-display">SCORE: <span id="score-val">0</span></div>
 
     <div id="start-screen">
-        <img src="baby.jpg" alt="Vera" class="baby-photo">
-        <h1>VERA'S ANIMALS</h1>
-        <button class="play-btn" onclick="initGame()">PLAY</button>
+        <div class="start-content-panel">
+            <img src="baby.jpg" alt="Vera" class="baby-photo">
+            <h1>VERA'S ANIMALS</h1>
+            <button class="play-btn" onclick="initGame()">PLAY</button>
+        </div>
         <div class="ai-tag">Handcrafted for Vera by Gemini AI & Family</div>
     </div>
 
