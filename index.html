@@ -54,50 +54,29 @@
         }
         
         #start-screen {
-            /* Removed the static image background CSS */
             overflow: hidden;
             will-change: mask-image, -webkit-mask-image; 
         }
 
-        /* --- NEW: Video Background CSS --- */
         .bg-video {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            object-fit: cover; /* Makes the video fill the screen without stretching */
-            z-index: -1; /* Puts the video behind the text and buttons */
-            /* Optional: Add filter: brightness(0.8); if the video makes the text hard to read */
+            object-fit: cover; 
+            z-index: -1; 
+            /* Optional: uncomment the next line to darken the video slightly if the white text is hard to read */
+            /* filter: brightness(0.85); */
         }
 
+        /* Clean, simple white title */
         #start-title {
             font-size: clamp(3rem, 15vw, 5rem); 
             margin: 0 0 20px 0; 
             text-align: center; position: relative; z-index: 10;
-            font-family: "Comic Sans MS", "Comic Sans", cursive;
-            color: #ff4081; -webkit-text-stroke: 2px white;
-            filter: drop-shadow(0px 6px 15px rgba(0,0,0,0.8));
+            font-weight: bold;
+            color: white; 
+            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
-
-        .letter {
-            display: inline-block; will-change: transform;
-            animation: scaleBounce 1.5s ease-in-out infinite;
-        }
-        @keyframes scaleBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        .letter:nth-child(1) { animation-delay: 0s; }
-        .letter:nth-child(2) { animation-delay: 0.1s; }
-        .letter:nth-child(3) { animation-delay: 0.2s; }
-        .letter:nth-child(4) { animation-delay: 0.3s; }
-        .letter:nth-child(5) { animation-delay: 0.4s; }
-        .letter:nth-child(6) { animation-delay: 0.5s; }
-        .letter:nth-child(7) { animation-delay: 0.6s; }
-        .letter:nth-child(8) { animation-delay: 0.7s; }
-        .letter:nth-child(9) { animation-delay: 0.8s; }
-        .letter:nth-child(10) { animation-delay: 0.9s; }
-        .letter:nth-child(11) { animation-delay: 1.0s; }
 
         .play-btn {
             padding: 18px 30px; font-size: clamp(1.2rem, 5vw, 1.8rem); 
@@ -294,21 +273,6 @@
             osc.start(); osc.stop(audioCtx.currentTime + decay);
         }
 
-        function animateTitleText() {
-            const titleEl = document.getElementById('start-title');
-            if (!titleEl) return;
-            const text = titleEl.innerText; 
-            titleEl.innerHTML = ''; 
-
-            [...text].forEach(char => {
-                const span = document.createElement('span');
-                span.className = 'letter';
-                span.innerText = char === ' ' ? '\u00A0' : char;
-                titleEl.appendChild(span);
-            });
-        }
-        window.addEventListener('load', animateTitleText);
-
         function createGrid() {
             container.innerHTML = '';
             let pool = [...allAnimals].sort(() => 0.5 - Math.random()).slice(0, 5);
@@ -388,7 +352,6 @@
                     startScreen.style.display = 'none';
                     startScreen.style.webkitMaskImage = '';
                     startScreen.style.maskImage = '';
-                    // Stop the video to save battery once the game starts
                     const bgVideo = document.querySelector('.bg-video');
                     if(bgVideo) bgVideo.pause();
                 }
